@@ -6,7 +6,7 @@ import com.acme.catchup.platform.news.interfaces.rest.resources.FavoriteSourceRe
 public class FavoriteSourceResourceFromEntityAssembler {
 
     public static FavoriteSourceResource toResourceFromEntity(FavoriteSource entity) {
-        return new FavoriteSourceResource(entity.getId(), entity.getNewsApiKey(), entity.getSourceId());
+        return new FavoriteSourceResource(entity.getNewsApiKey(), entity.getSourceId());
     }
 
 }

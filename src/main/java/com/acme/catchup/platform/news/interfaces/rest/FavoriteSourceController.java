@@ -1,6 +1,7 @@
 package com.acme.catchup.platform.news.interfaces.rest;
 
 import com.acme.catchup.platform.news.domain.model.aggregate.FavoriteSource;
+import com.acme.catchup.platform.news.domain.model.queries.GetAllFavoriteSourceQuery;
 import com.acme.catchup.platform.news.domain.model.queries.GetFavoriteSourceByIdQuery;
 import com.acme.catchup.platform.news.domain.services.FavoriteSourceCommandService;
 import com.acme.catchup.platform.news.domain.services.FavoriteSourceQueryService;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -75,6 +77,13 @@ public class FavoriteSourceController {
         return favoriteSource.map(
                 source -> ResponseEntity.ok(FavoriteSourceResourceFromEntityAssembler.toResourceFromEntity(source))
         ).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FavoriteSourceResource>> getFavoriteSources() {
+        var favoriteSources = favoriteSourceQueryService.handle(new GetAllFavoriteSourceQuery());
+        var favoriteSourceResources = favoriteSources.stream().map(source -> FavoriteSourceResourceFromEntityAssembler.toResourceFromEntity(source)).toList();
+        return ResponseEntity.ok(favoriteSourceResources);
     }
 
 }
