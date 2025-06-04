@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FavoriteSourceRepository extends JpaRepository<FavoriteSource, Long> {
+
+    boolean existsByNewsApiKeyAndSourceId(String newsApiKey, String sourceId);
+
 }
